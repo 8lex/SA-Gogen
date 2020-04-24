@@ -1,7 +1,0 @@
-name: eventrater
-type: config
-options:
-    MinuteOfHour:
-        0: 1.0
-        1: 0.5
-        2: 2.0

@@ -1,9 +1,0 @@
-global:
-  samplesDir:
-  - $GOGEN_HOME/examples/nixOS
-mix:
-  - sample: $GOGEN_HOME/examples/nixOS/cpu.yml
-  - sample: $GOGEN_HOME/examples/nixOS/df.yml
-  - sample: $GOGEN_HOME/examples/nixOS/vmstat.yml
-  - sample: $GOGEN_HOME/examples/nixOS/bandwidth.yml
-  - sample: $GOGEN_HOME/examples/nixOS/iostat.yml

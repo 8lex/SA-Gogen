@@ -1,5 +1,0 @@
-name: validate-fieldchoice-items
-tokens:
-  - name: fieldChoice
-    type: fieldChoice
-    fieldChoice:
