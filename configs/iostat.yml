@@ -1,0 +1,91 @@
+global:
+    samplesDir:
+    - $GOGEN_HOME/examples/nixOS
+    - examples/nixOS
+  samples:
+  - name: iostat
+    description: Generate Iostat Usage Metrics
+    notes: |
+      Generates iostat usage from the Splunk UNIX TA
+    disabled: false
+    generator: iostat
+    rater: default
+    interval: 60
+    earliest: now
+    latest: now
+    tokens:
+    - name: host
+      format: ""
+      token: ""
+      type: fieldChoice
+      sample: allhosts.csv
+      field: _raw
+      srcField: host
+      fieldChoice:
+      - group: api
+        host: appserver-01
+        ip: 10.2.1.133
+        mac: BE:21:D7:EF:CD:E2
+        nics: "2"
+      - group: api
+        host: appserver-02
+        ip: 10.2.1.134
+        mac: 2A:24:90:9B:AF:2C
+        nics: "2"
+      omitempty: false
+    - name: disks
+      format: ""
+      token: ""
+      type: choice
+      field: _raw
+      choice:
+      - sda
+      - sdb
+      - dm-0
+      - dm-1
+      omitempty: false
+    lines:
+    - _raw: "Device\trReq_PS\twReq_PS\trKB_PS\twKB_PS\tavgWaitMillis\tavgSvcMillis\tbandwUtilPct"
+      host: $host$
+      index: os
+      source: iostat
+      sourcetype: iostat
+    - _raw: "$device$\t$rrps$\t$wrps$\t$rkbps$\t$wkbps$\t$avgwait$\t$avgsvc$\t$bwutil$"
+      host: $host$
+      index: os
+      source: iostat
+      sourcetype: iostat
+    field: _raw
+  mix: []
+  generators:
+  - name: iostat
+    options:
+      avgKB: 0.512
+      highReads: 0
+      highWrites: 0
+      maxOps: 1000
+      maxTime: 100
+    script: "hosts = getFieldChoice(\"host\", \"host\")\ndisks = getChoice(\"disks\")\nmaxOps
+      = tonumber(options[\"maxOps\"])\navgKB = tonumber(options[\"avgKB\"])\nmaxTime
+      = tonumber(options[\"maxTime\"])\nfor i, host in ipairs(hosts) do\n    setToken(\"host\",
+      host, \"host\")\n    \n    events = { }\n    l = getLine(0)\n    l = replaceTokens(l)\n
+      \   table.insert(events, l)\n\n    for i=1,#disks do\n        if options[\"highWrites\"]
+      > 0 and optoins[\"highReads\"] > 0 then\n            rrps = (math.random(0, 50)
+      / 100) * maxOps\n            wrps = maxOps - rrps\n            qtime =(math.random(50,
+      100) / 100) * maxTime\n        else if options[\"highWrites\"] > 0 then\n            rrps
+      = (math.random(0, 10) / 100) * maxOps\n            wrps = (math.random(0, 80)
+      / 100) * maxOps\n            qtime =(math.random(50, 80) / 100) * maxTime\n        else
+      if options[\"highReads\"] > 0 then\n            rrps = (math.random(0, 80) / 100)
+      * maxOps\n            wrps = (math.random(0, 10) / 100) * maxOps\n            qtime
+      =(math.random(50, 80) / 100) * maxTime\n        else\n            rrps = (math.random(0,
+      2) / 100) * maxOps\n            wrps = (math.random(0, 2) / 100) * maxOps\n            qtime
+      = 0\n        end end end\n        device = disks[i]\n        rkbps = round(rrps
+      * (math.random(0, 20) / 100) * avgKB, 2)\n        wkbps = round(wrps * (math.random(0,
+      20) / 100) * avgKB, 2)\n        avgsvc = round((math.random(0, 1) / 100) * maxTime,
+      2)\n        avgwait = round(avgsvc + qtime, 2)\n        bwutil = round(((rrps
+      + wrps) * avgsvc / 1000) * 100, 2)\n\n        tokens = { \"device\", \"rrps\",
+      \"wrps\", \"rkbps\", \"wkbps\", \"avgwait\", \"avgsvc\", \"bwutil\" }\n        for
+      i, t in ipairs(tokens) do\n            setToken(t, _G[t])\n        end\n        l
+      = getLine(1)\n        l = replaceTokens(l)\n        table.insert(events, l)\n
+      \   end\n    send(events)\nend"
+    fileName: $GOGEN_HOME/examples/nixOS/iostat.lua

@@ -1,0 +1,300 @@
+global:
+  rotInterval: 1
+  samplesDir:
+  - .
+samples:
+- name: tutorial3
+  description: Tutorial 3
+  disabled: false
+  generator: sample
+  rater: eventrater
+  interval: 60
+  count: 2
+  earliest: now
+  latest: now
+  begin: 2012-02-09T08:00:00Z
+  end: 2012-02-09T08:03:00Z
+  tokens:
+  - name: ts
+    format: regex
+    token: (\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2},\d{3})
+    type: gotimestamp
+    replacement: 2006-01-02 15:04:05.000
+    field: _raw
+  - name: host
+    format: template
+    token: $host$
+    type: choice
+    field: host
+    choice:
+    - server1.gogen.io
+    - server2.gogen.io
+  - name: transtype
+    format: regex
+    token: transType=(\w+)
+    type: weightedChoice
+    field: _raw
+    weightedChoice:
+    - weight: 3
+      choice: New
+    - weight: 5
+      choice: Change
+    - weight: 1
+      choice: Delete
+  - name: integerid
+    format: template
+    token: $integerid$
+    type: script
+    field: _raw
+    script: |
+      state["id"] = state["id"] + 1 return state["id"]
+    init:
+      id: "0"
+  - name: guid
+    format: template
+    token: $guid$
+    type: random
+    replacement: guid
+    field: _raw
+  - name: username
+    format: template
+    token: $username$
+    type: choice
+    sample: usernames.sample
+    field: _raw
+    choice:
+    - birodivulga162
+    - nildajcbonanno
+    - ivettaadelima
+    - pckomono
+    - Looreeto
+    - JooPedro1591
+    - claaarecurlingg
+    - acciokcavote
+    - JungD
+    - InaraAllves
+    - Haroldmcaol
+    - xNessaa
+    - stylesdofunk
+    - meltemmeltemm
+    - emapujig
+    - cellphones4deal
+    - amisisuvi
+    - MegSeecharran95
+    - MargueritaYociu
+    - MarcioBFasano
+  - name: markets-city
+    format: template
+    token: $city$
+    type: fieldChoice
+    group: 1
+    sample: markets.csv
+    field: _raw
+    srcField: city
+    fieldChoice:
+    - city: SPRINGFIELD
+      county: HAMPDEN
+      lat: "42.106"
+      long: "-72.5977"
+      state: MA
+      zip: "1101"
+    - city: WORCESTER
+      county: WORCESTER
+      lat: "42.2621"
+      long: "-71.8034"
+      state: MA
+      zip: "1601"
+    - city: WOBURN
+      county: MIDDLESEX
+      lat: "42.482894"
+      long: "-71.157404"
+      state: MA
+      zip: "1801"
+    - city: BOSTON
+      county: SUFFOLK
+      lat: "42.345"
+      long: "-71.0876"
+      state: MA
+      zip: "2123"
+    - city: MANCHESTER
+      county: HILLSBOROUGH
+      lat: "42.992858"
+      long: "-71.463255"
+      state: NH
+      zip: "3101"
+    - city: PORTLAND
+      county: CUMBERLAND
+      lat: "43.660564"
+      long: "-70.258864"
+      state: ME
+      zip: "4101"
+    - city: MONTPELIER
+      county: WASHINGTON
+      lat: "44.2574"
+      long: "-72.5698"
+      state: VT
+      zip: "5601"
+    - city: HARTFORD
+      county: HARTFORD
+      lat: "41.7636"
+      long: "-72.6855"
+      state: CT
+      zip: "6101"
+    - city: WEST HARTFORD
+      county: HARTFORD
+      lat: "41.755553"
+      long: "-72.75322"
+      state: CT
+      zip: "6107"
+  - name: markets-state
+    format: template
+    token: $state$
+    type: fieldChoice
+    group: 1
+    sample: markets.csv
+    field: _raw
+    srcField: state
+    fieldChoice:
+    - city: SPRINGFIELD
+      county: HAMPDEN
+      lat: "42.106"
+      long: "-72.5977"
+      state: MA
+      zip: "1101"
+    - city: WORCESTER
+      county: WORCESTER
+      lat: "42.2621"
+      long: "-71.8034"
+      state: MA
+      zip: "1601"
+    - city: WOBURN
+      county: MIDDLESEX
+      lat: "42.482894"
+      long: "-71.157404"
+      state: MA
+      zip: "1801"
+    - city: BOSTON
+      county: SUFFOLK
+      lat: "42.345"
+      long: "-71.0876"
+      state: MA
+      zip: "2123"
+    - city: MANCHESTER
+      county: HILLSBOROUGH
+      lat: "42.992858"
+      long: "-71.463255"
+      state: NH
+      zip: "3101"
+    - city: PORTLAND
+      county: CUMBERLAND
+      lat: "43.660564"
+      long: "-70.258864"
+      state: ME
+      zip: "4101"
+    - city: MONTPELIER
+      county: WASHINGTON
+      lat: "44.2574"
+      long: "-72.5698"
+      state: VT
+      zip: "5601"
+    - city: HARTFORD
+      county: HARTFORD
+      lat: "41.7636"
+      long: "-72.6855"
+      state: CT
+      zip: "6101"
+    - city: WEST HARTFORD
+      county: HARTFORD
+      lat: "41.755553"
+      long: "-72.75322"
+      state: CT
+      zip: "6107"
+  - name: markets-zip
+    format: template
+    token: $zip$
+    type: fieldChoice
+    group: 1
+    sample: markets.csv
+    field: _raw
+    srcField: zip
+    fieldChoice:
+    - city: SPRINGFIELD
+      county: HAMPDEN
+      lat: "42.106"
+      long: "-72.5977"
+      state: MA
+      zip: "1101"
+    - city: WORCESTER
+      county: WORCESTER
+      lat: "42.2621"
+      long: "-71.8034"
+      state: MA
+      zip: "1601"
+    - city: WOBURN
+      county: MIDDLESEX
+      lat: "42.482894"
+      long: "-71.157404"
+      state: MA
+      zip: "1801"
+    - city: BOSTON
+      county: SUFFOLK
+      lat: "42.345"
+      long: "-71.0876"
+      state: MA
+      zip: "2123"
+    - city: MANCHESTER
+      county: HILLSBOROUGH
+      lat: "42.992858"
+      long: "-71.463255"
+      state: NH
+      zip: "3101"
+    - city: PORTLAND
+      county: CUMBERLAND
+      lat: "43.660564"
+      long: "-70.258864"
+      state: ME
+      zip: "4101"
+    - city: MONTPELIER
+      county: WASHINGTON
+      lat: "44.2574"
+      long: "-72.5698"
+      state: VT
+      zip: "5601"
+    - city: HARTFORD
+      county: HARTFORD
+      lat: "41.7636"
+      long: "-72.6855"
+      state: CT
+      zip: "6101"
+    - city: WEST HARTFORD
+      county: HARTFORD
+      lat: "41.755553"
+      long: "-72.75322"
+      state: CT
+      zip: "6107"
+  - name: value
+    format: regex
+    token: value=(\d+)
+    type: random
+    replacement: float
+    field: _raw
+    precision: 3
+    upper: 10
+  lines:
+  - _raw: 2012-09-14 16:30:20,072 transType=ReplaceMe transID=$integerid$ transGUID=$guid$
+      userName=$username$ city="$city$" state=$state$ zip=$zip$ value=0
+    host: $host$
+    index: main
+    source: /var/log/translog
+    sourcetype: translog
+  field: _raw
+  singlepass: true
+mix: []
+raters:
+- name: eventrater
+  type: config
+  options:
+    MinuteOfHour:
+      0: 1
+      1: 0.5
+      2: 2

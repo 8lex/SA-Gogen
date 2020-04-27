@@ -1,0 +1,84 @@
+global:
+    samplesDir:
+    - $GOGEN_HOME/examples/nixOS
+    - examples/nixOS
+  samples:
+  - name: bandwidth
+    description: Generate Bandwidth Usage Metrics
+    notes: |
+      Generates bandwidth usage from the Splunk UNIX TA
+    disabled: false
+    generator: bandwidth
+    rater: default
+    interval: 60
+    earliest: now
+    latest: now
+    tokens:
+    - name: host
+      format: ""
+      token: ""
+      type: fieldChoice
+      sample: allhosts.csv
+      field: _raw
+      srcField: host
+      fieldChoice:
+      - group: api
+        host: appserver-01
+        ip: 10.2.1.133
+        mac: BE:21:D7:EF:CD:E2
+        nics: "2"
+      - group: api
+        host: appserver-02
+        ip: 10.2.1.134
+        mac: 2A:24:90:9B:AF:2C
+        nics: "2"
+      omitempty: false
+    lines:
+    - _raw: "Name\trxPackets_PS\ttxPackets_PS\trxKB_PS\ttxKB_PS"
+      host: $host$
+      index: os
+      source: bandwidth
+      sourcetype: bandwidth
+    - _raw: "$nic$\t$rx_p$\t$tx_p$\t$rx_kb$\t$tx_kb$"
+      host: $host$
+      index: os
+      source: df
+      sourcetype: df
+    field: _raw
+  mix: []
+  generators:
+  - name: bandwidth
+    options:
+      maxKBPS: 1500
+      minKBPS: 1000
+      numNICs: 2
+    script: |-
+      hosts = getFieldChoice("host", "host")
+      for i, host in ipairs(hosts) do
+          setToken("host", host, "host")
+          events = { }
+          l = getLine(0)
+          l = replaceTokens(l)
+          table.insert(events, l)
+  
+          kbps = math.random(options["minKBPS"], options["maxKBPS"])
+          packets = kbps / 65.535
+          receivedPct = math.random(1000, 4000) / 1000
+          for i=1,options["numNICs"] do
+              nic = "eth"..tostring(i)
+              rx_p = round(receivedPct * packets, 2)
+              tx_p = round(packets - rx_p, 2)
+              rx_kb = round(receivedPct * kbps, 2)
+              tx_kb = round(kbps - rx_kb, 2)
+  
+              tokens = { "nic", "rx_p", "tx_p", "rx_kb", "tx_kb" }
+              for i, t in ipairs(tokens) do
+                  setToken(t, _G[t])
+              end
+              l = getLine(1)
+              l = replaceTokens(l)
+              table.insert(events, l)
+          end
+          send(events)
+      end
+    fileName: $GOGEN_HOME/examples/nixOS/bandwidth.lua
