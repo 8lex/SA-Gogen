@@ -1,0 +1,36 @@
+global:
+  samplesDir:
+  - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
+generators:
+  - name: bandwidth
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/bandwidth.lua
+    options:
+      minKBPS: 1000
+      maxKBPS: 1500
+      numNICs: 2
+samples:
+  - name: bandwidth
+    description: Generate Bandwidth Usage Metrics
+    notes: >
+      Generates bandwidth usage from the Splunk UNIX TA
+    generator: bandwidth
+    interval: 1
+    begin: -1s
+    end: now
+    tokens:
+    - name: host
+      type: fieldChoice
+      srcField: host
+      sample: allhosts.csv
+      disabled: true
+    lines:
+    - index: os
+      sourcetype: bandwidth
+      source: bandwidth
+      host: $host$
+      
+    - index: os
+      sourcetype: df
+      source: df
+      host: $host$
+      _raw: nic=$nic$ rx_p=$rx_p$ tx_p=$tx_p$ rx_kb=$rx_kb$ tx_kb=$tx_kb$

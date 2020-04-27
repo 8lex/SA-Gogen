@@ -1,0 +1,38 @@
+global:
+  samplesDir:
+  - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
+generators:
+  - name: cpu
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/cpu.lua
+    options:
+      minCPU: 30.0
+      maxCPU: 75.0
+      numCPUs: 8
+samples:
+  - name: cpu
+    description: Generate CPU Metrics
+    notes: >
+      Generates CPU usage in the form of Splunk's UNIX TA
+    generator: cpu
+    interval: 1
+    latest: now
+    begin: -1s
+    end: now
+    tokens:
+    - name: host
+      type: fieldChoice
+      srcField: host
+      sample: allhosts.csv
+      disabled: true
+    lines:
+    - index: os
+      sourcetype: cpu
+      source: cpu
+      host: $host$
+      _raw: |- 
+        
+    - index: os
+      sourcetype: cpu
+      source: cpu
+      host: $host$
+      _raw: CPU=$CPU$ pctUser=$pctUser$ pctSystem=$pctSystem$ pctIowait=$pctIowait$ pctIdle=$pctIdle$

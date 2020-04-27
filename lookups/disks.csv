@@ -1,0 +1,5 @@
+mount,disk
+/,/dev/sda1
+/opt/splunk,/dev/sdb1
+/splunk_data/fast,/dev/sdx1
+/splunk_data/slow,/dev/sdy1

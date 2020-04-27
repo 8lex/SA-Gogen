@@ -1,0 +1,10 @@
+global:
+  samplesDir: 
+  - $GOGEN_HOME/examples/common
+samples:
+  - name: weblog
+    fromSample: weblog-common
+    interval: 1
+    endIntervals: 1
+    count: 10
+    

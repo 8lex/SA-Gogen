@@ -1,0 +1,45 @@
+global:
+  samplesDir:
+    - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
+generators:
+  - name: df
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/df.lua
+    options:
+      minDiskUsedPct: 50.0
+      maxDiskUsedPct: 69.0
+      totalGBperDisk: 931
+      numDisks: 4
+samples:
+  - name: df
+    description: Generate Disk Usage Metrics
+    notes: >
+      Generates Disk Usage in the form of a df command from the Splunk UNIX TA
+    generator: df
+    interval: 1
+    count: 1
+    earliest: now
+    latest: now
+    begin: -1s
+    end: now
+    tokens:
+    - name: disks
+      type: fieldChoice
+      srcField: disk
+      sample: disks.csv
+      disabled: false
+    - name: host
+      type: fieldChoice
+      srcField: host
+      sample: allhosts.csv
+      disabled: true
+    lines:
+    - index: os
+      sourcetype: df
+      source: df
+      host: $host$
+      _raw: 
+    - index: os
+      sourcetype: df
+      source: df
+      host: $host$
+      _raw: Filesystem=$fs$ Type=ext4 Size=$totalGB$G Used=$usedGB$G Avail=$availGB$G UsePct=$usedPct$%  MountedOn=$mnt$

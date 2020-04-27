@@ -1,0 +1,38 @@
+global:
+  samplesDir:
+  - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
+generators:
+  - name: vmstat
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/vmstat.lua
+    options:
+      minMemUsedPct: 5.0
+      maxMemUsedPct: 60.0
+      totalMB: 16000
+samples:
+  - name: vmstat
+    description: Generate Memory Usage Metrics
+    notes: >
+      Generates memory Usage in the form of a vmstat command from the Splunk UNIX TA
+    generator: vmstat
+    interval: 1
+    earliest: now
+    latest: now
+    begin: -1s
+    end: now
+    tokens:
+    - name: host
+      type: fieldChoice
+      srcField: host
+      sample: allhosts.csv
+      disabled: true
+    lines:
+    - index: os
+      sourcetype: df
+      source: df
+      host: $host$
+      #_raw: memTotalMB	memFreeMB	memUsedMB	memFreePct	memUsedPct	pgPageOut	swapUsedPct	pgSwapOut	cSwitches	interrupts	forks	processes	threads	loadAvg1mi	waitThreads	interrupts_PS	pgPageIn_PS	pgPageOut_PS
+    - index: os
+      sourcetype: df
+      source: df
+      host: $host$
+      _raw: memTotalMB=$memTotalMB$	memFreeMB=$memFreeMB$	memUsedMB=$memUsedMB$	memFreePct=$memFreePct$	memUsedPct=$memUsedPct$	pgPageOut=$pgPageOut$	swapUsedPct=$swapUsedPct$	pgSwapOut=$pgSwapOut$	cSwitches=$cSwitches$	interrupts=$interrupts$	forks=$forks$	processes=$processes$	threads=$threads$	loadAvg1mi=$loadAvg1mi$	waitThreads=$waitThreads$	interruptsPS=$interruptsPS$	pgPageInPS=$pgPageInPS$	pgPageOutPS=$pgPageOutPS$

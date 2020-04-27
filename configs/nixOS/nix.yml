@@ -1,0 +1,9 @@
+global:
+  samplesDir:
+  - $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS
+mix:
+  - sample: $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS/cpu.yml
+  - sample: $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS/df.yml
+  - sample: $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS/vmstat.yml
+  - sample: $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS/bandwidth.yml
+  - sample: $SPLUNK_HOME/etc/apps/SA-Gogen/configs/nixOS/iostat.yml
