@@ -12,6 +12,12 @@ as generating compelling data sets to be used for demo purposes.
 
 At default all inputs are enabled
 
+## Index Setup
+make sure the following indexes either configured or you change the indexes of the yml files.
+* web
+* business
+* os
+
 ## Inputs: 
 * weblog
     * index = web
