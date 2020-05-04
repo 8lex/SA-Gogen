@@ -3,7 +3,7 @@ global:
     - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
 generators:
   - name: iostat
-    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/iostat.lua
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/iostat.lua
     options:
       highWrites: 0
       highReads: 0

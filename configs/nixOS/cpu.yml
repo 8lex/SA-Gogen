@@ -3,9 +3,9 @@ global:
   - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
 generators:
   - name: cpu
-    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/cpu.lua
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/cpu.lua
     options:
-      minCPU: 30.0
+      minCPU: 20.0
       maxCPU: 75.0
       numCPUs: 8
 samples:

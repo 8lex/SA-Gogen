@@ -3,7 +3,7 @@ global:
   - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
 generators:
   - name: bandwidth
-    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/bandwidth.lua
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/bandwidth.lua
     options:
       minKBPS: 1000
       maxKBPS: 1500

@@ -3,7 +3,7 @@ global:
     - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
 generators:
   - name: df
-    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/df.lua
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/df.lua
     options:
       minDiskUsedPct: 50.0
       maxDiskUsedPct: 69.0

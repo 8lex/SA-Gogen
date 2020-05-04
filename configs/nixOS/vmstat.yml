@@ -3,7 +3,7 @@ global:
   - $SPLUNK_HOME/etc/apps/SA-Gogen/lookups
 generators:
   - name: vmstat
-    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/libs/vmstat.lua
+    fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/vmstat.lua
     options:
       minMemUsedPct: 5.0
       maxMemUsedPct: 60.0
