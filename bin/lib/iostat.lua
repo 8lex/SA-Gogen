@@ -1,5 +1,6 @@
 hosts = getFieldChoice("host", "host")
 disks = getFieldChoice("disks", "mount")
+minOps = tonumber(options["minOps"])
 maxOps = tonumber(options["maxOps"])
 avgKB = tonumber(options["avgKB"])
 maxTime = tonumber(options["maxTime"])

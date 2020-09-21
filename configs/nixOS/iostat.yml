@@ -5,6 +5,7 @@ generators:
   - name: iostat
     fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/iostat.lua
     options:
+      #values greater then 0 are bugy. dont use it in this release.
       highWrites: 0
       highReads: 0
       maxOps: 1000

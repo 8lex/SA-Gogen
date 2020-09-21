@@ -5,9 +5,9 @@ generators:
   - name: cpu
     fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/cpu.lua
     options:
-      minCPU: 20.0
-      maxCPU: 75.0
-      numCPUs: 8
+      minCPU: 80.0
+      maxCPU: 95.0
+      numCPUs: 2
 samples:
   - name: cpu
     description: Generate CPU Metrics

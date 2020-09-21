@@ -7,7 +7,7 @@ generators:
     options:
       minKBPS: 1000
       maxKBPS: 1500
-      numNICs: 2
+      numNICs: 1
 samples:
   - name: bandwidth
     description: Generate Bandwidth Usage Metrics

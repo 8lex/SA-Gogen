@@ -5,10 +5,10 @@ generators:
   - name: df
     fileName: $SPLUNK_HOME/etc/apps/SA-Gogen/bin/lib/df.lua
     options:
-      minDiskUsedPct: 50.0
-      maxDiskUsedPct: 69.0
-      totalGBperDisk: 931
-      numDisks: 4
+      minDiskUsedPct: 30.0
+      maxDiskUsedPct: 70.0
+      totalGBperDisk: 931.0
+      # numDisks: 4
 samples:
   - name: df
     description: Generate Disk Usage Metrics
@@ -31,7 +31,7 @@ samples:
       type: fieldChoice
       srcField: host
       sample: allhosts.csv
-      disabled: true
+      disabled: false
     lines:
     - index: os
       sourcetype: df

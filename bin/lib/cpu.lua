@@ -19,7 +19,7 @@ for i, host in ipairs(hosts) do
 
     for i=1,tonumber(options["numCPUs"]),1
     do
-        oneCPU = round(math.random() * totalCPU, 2)
+        oneCPU = round(totalCPU, 2)
         pctUser = round(math.random() * oneCPU, 2)
         pctSystem = round(oneCPU - pctUser, 2)
         pctIowait = round(math.random() * 0.1, 2)
